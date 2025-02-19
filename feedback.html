@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оцінка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9ff;
+            overflow: hidden;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .feedback-box {
+            display: inline-block;
+            border: 2px solid #b099e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .feedback-box:hover {
+            background-color: #e0d3ff;
+        }
+        .emoji {
+            font-size: 50px;
+        }
+        .counter {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .falling-emoji {
+            position: absolute;
+            font-size: 40px;
+            animation: fall 1s linear;
+        }
+        @keyframes fall {
+            from { transform: translateY(-100px); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Оцініть нас</h2>
+        <p>Ваша думка важлива для нас!</p>
+        <div class="feedback-box" onclick="submitFeedback('задоволений')">
+            <div class="emoji">😊👍</div>
+            <p>Я ЗАДОВОЛЕНИЙ</p>
+        </div>
+        <div class="feedback-box" onclick="submitFeedback('незадоволений')">
+            <div class="emoji">😢👎</div>
+            <p>Я НЕЗАДОВОЛЕНИЙ</p>
+        </div>
+        <div class="counter">
+            Задоволених: <span id="happyCount">0</span> | Незадоволених: <span id="sadCount">0</span>
+        </div>
+    </div>
+
+    <script>
+        let happyCount = 0;
+        let sadCount = 0;
+
+        function submitFeedback(response) {
+            if (response === 'задоволений') {
+                happyCount++;
+                document.getElementById('happyCount').innerText = happyCount;
+                createFallingEmojis('👍');
+            } else {
+                sadCount++;
+                document.getElementById('sadCount').innerText = sadCount;
+                createFallingEmojis('👎');
+            }
+        }
+
+        function createFallingEmojis(emoji) {
+            for (let i = 0; i < 10; i++) {
+                const emojiElement = document.createElement('div');
+                emojiElement.classList.add('falling-emoji');
+                emojiElement.innerText = emoji;
+                document.body.appendChild(emojiElement);
+                
+                emojiElement.style.left = Math.random() * window.innerWidth + 'px';
+                emojiElement.style.top = '-50px';
+                
+                setTimeout(() => {
+                    emojiElement.remove();
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
